@@ -64,6 +64,10 @@ cd $BUILD_DIR/public/scripts
 #start pub from the /app folder to have correct symlink paths
 /app/dart-sdk/bin/pub install
 
+# still have to brute force web/packages
+cd $BUILD_DIR/public/scripts/web
+ln -sf ../packages
+
 # move packages from cache directory into build directory
 cd $CACHE_DIR
 cp -r $CACHE_DIR/pub-cache $BUILD_DIR/$PACKAGES_DIR
