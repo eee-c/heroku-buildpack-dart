@@ -49,9 +49,17 @@ cp -r $CACHE_DIR/dart-sdk $BUILD_DIR
 cp -r $CACHE_DIR/dart-sdk /app
 
 
-message "-----> Install packages"
+message "-----> Install server packages"
 
 cd $BUILD_DIR
+
+#start pub from the /app folder to have correct symlink paths
+/app/dart-sdk/bin/pub install
+
+
+message "-----> Install client packages"
+
+cd $BUILD_DIR/public/scripts
 
 #start pub from the /app folder to have correct symlink paths
 /app/dart-sdk/bin/pub install
@@ -59,5 +67,3 @@ cd $BUILD_DIR
 # move packages from cache directory into build directory
 cd $CACHE_DIR
 cp -r $CACHE_DIR/pub-cache $BUILD_DIR/$PACKAGES_DIR
-
-
