@@ -53,10 +53,9 @@ message "-----> Install packages"
 
 cd $BUILD_DIR
 
-for filename in `find . -name pubspec.yaml | grep -v dart-sdk | grep -v pub-cache
-`; do
+for filename in `find . -name pubspec.yaml | grep -v dart-sdk | grep -v pub-cache`; do
     pub_dir=`dirname $filename`
-    message "*** Found pubspec.yaml in $BUILD_DIR/$pub_dir"
+    message "*** Found pubspec.yaml in $pub_dir"
     cd $BUILD_DIR/$pub_dir
 
     #start pub from the /app folder to have correct symlink paths
