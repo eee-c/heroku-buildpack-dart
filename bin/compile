@@ -49,24 +49,25 @@ cp -r $CACHE_DIR/dart-sdk $BUILD_DIR
 cp -r $CACHE_DIR/dart-sdk /app
 
 
-message "-----> Install server packages"
+message "-----> Install packages"
 
 cd $BUILD_DIR
 
-#start pub from the /app folder to have correct symlink paths
-/app/dart-sdk/bin/pub install
+for filename in `find . -name pubspec.yaml | grep -v dart-sdk | grep -v pub-cache
+`; do
+    pub_dir=`dirname $filename`
+    message "*** Found pubspec.yaml in $BUILD_DIR/$pub_dir"
+    cd $BUILD_DIR/$pub_dir
 
+    #start pub from the /app folder to have correct symlink paths
+    /app/dart-sdk/bin/pub install
 
-message "-----> Install client packages"
-
-cd $BUILD_DIR/public/scripts
-
-#start pub from the /app folder to have correct symlink paths
-/app/dart-sdk/bin/pub install
-
-# still have to brute force web/packages
-cd $BUILD_DIR/public/scripts/web
-ln -sf ../packages
+    if [ -e $BUILD_DIR/$pub_dir/web/packages ]; then
+        cd $BUILD_DIR/$pub_dir/web
+        ln -sf ../packages
+        message "Fixed web symlink"
+    fi
+done
 
 # move packages from cache directory into build directory
 cd $CACHE_DIR
